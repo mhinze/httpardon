@@ -1,5 +1,3 @@
-using System;
-using HttPardon.FluentInterface;
 using HttPardon.Util;
 
 namespace HttPardon
@@ -16,6 +14,8 @@ namespace HttPardon
         {
             get { return _cache; }
         }
+
+        public dynamic AdditionalOptions { get; set; }
 
         void IHttp.BaseUri(string uri)
         {

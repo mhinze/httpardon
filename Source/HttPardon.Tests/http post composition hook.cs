@@ -12,7 +12,7 @@ namespace HttPardon.Specifications.IHttp_Post
         {
             this.http(h =>
             {
-                h.BaseUri("http://localhost:80/");
+                h.BaseUri("http://localhost");
                 h.BasicAuth("username", "password");
             });
         }
@@ -22,10 +22,18 @@ namespace HttPardon.Specifications.IHttp_Post
     public class when_using_the_composition_hook_to_issue_a_post
     {
         Establish listener = () => Listen.OnLocalhost().Respond(x => x.Default());
-//
-//        Because of = () => new Twitter()
-//            .post("/statuses/update.json", new hash{foo = bar});
+
+        Cleanup listener_ = Listen.Stop;
+
+        Because of = () => new Twitter()
+            .post("/statuses/update.json", 
+            @"{:query => {:status => 'It\'s an HTTParty and everyone is invited!'}}");
+
+        It should_post_to_complete_url = () => Listen.Assert(x => x.Url.ShouldEqual("http://localhost/statuses/update.json"));
+
+        It should_post_query = () => 
+            Listen.Assert(x => x.RequestBody.ShouldEqual("status=It's an HTTParty and everyone is invited!"));
     }
 
-    
+
 }

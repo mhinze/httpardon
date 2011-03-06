@@ -49,6 +49,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\System.Web.WebPages\System.Web.Helpers.dll</HintPath>
@@ -64,9 +65,10 @@
     <Compile Include="Http.cs" />
     <Compile Include="ExtensionMethods\HttpCompositionExtensions.cs" />
     <Compile Include="HttpOptions.cs" />
+    <Compile Include="Util\DynamicHash.cs" />
     <Compile Include="Util\HttpOptionsCache.cs" />
     <Compile Include="Details\HttpWebRequestBuilder.cs" />
-    <Compile Include="ExtensionMethods\HttpWebResposeExtensions.cs" />
+    <Compile Include="ExtensionMethods\HttpWebExtensions.cs" />
     <Compile Include="IHttp.cs" />
     <Compile Include="Requestor.cs" />
     <Compile Include="Response.cs" />

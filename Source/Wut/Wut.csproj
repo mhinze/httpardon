@@ -36,9 +36,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ListenerAssertion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FluentInterface.cs" />
-    <Compile Include="ExtensionMethods\HttpListenerResponseExtensions.cs" />
+    <Compile Include="ExtensionMethods\HttpListenerExtensions.cs" />
     <Compile Include="Listen.cs" />
     <Compile Include="Listener.cs" />
     <Compile Include="ListeningScenario.cs" />

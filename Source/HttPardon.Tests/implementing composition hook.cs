@@ -33,6 +33,6 @@ namespace HttPardon.Specifications.IHttp_Post
         Cleanup listener = Listen.Stop;
 
         It should_issue_the_request_at_the_configured_base_uri =
-            () => Listen.Assert(x => x.Url.ShouldEqual(new Uri(Partay.Url)));
+            () => Listen.Assert(x => x.Url.ShouldEqual(Partay.Url));
     }
 }

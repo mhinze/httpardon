@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Net;
+using System.Web.Helpers;
+using System.Web.Script.Serialization;
 using HttPardon.Details;
 
 namespace HttPardon
@@ -24,9 +29,12 @@ namespace HttPardon
             return GetResponse(options);
         }
 
-        Response GetResponse(HttpOptions httpOptions)
+        Response GetResponse(HttpOptions httpOptions, Action<HttpWebRequest> action = null)
         {
             var request = _requestBuilder.Build(httpOptions);
+
+            if (action != null)
+                action(request);
 
             var response = (HttpWebResponse) request.GetResponse();
 
@@ -35,7 +43,31 @@ namespace HttPardon
 
         internal Response Post(HttpOptions httpOptions)
         {
-            throw new NotImplementedException();
+            return GetResponse(httpOptions, r => Action(r, httpOptions));
+        }
+
+        void Action(HttpWebRequest request, HttpOptions options)
+        {
+            request.Method = "post";
+
+            using (TextWriter writer = new StreamWriter(request.GetRequestStream()))
+            {
+                var json = new JavaScriptSerializer().Serialize(options.AdditionalOptions.query);
+                writer.Write(json);
+            }
+        }
+    }
+
+    public class JsonSerializer
+    {
+        public string ToJson(object data)
+        {
+            return Json.Encode(data);
+        }
+
+        public dynamic FromJson(string json)
+        {
+            return Json.Decode(json);
         }
     }
 }

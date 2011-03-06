@@ -21,5 +21,10 @@ namespace Wut
             if (response != null) response(Response);
             _listener.StartAsync(this);
         }
+
+        public void Execution(IAsyncResult asyncResult)
+        {
+            
+        }
     }
 }

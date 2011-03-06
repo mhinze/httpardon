@@ -58,6 +58,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="crafting json post request specifications.cs" />
     <Compile Include="http get specifications.cs" />
     <Compile Include="http post composition hook.cs" />
     <Compile Include="implementing composition hook.cs" />

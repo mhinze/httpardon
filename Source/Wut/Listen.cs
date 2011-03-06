@@ -1,5 +1,5 @@
 using System;
-using System.Net;
+using System.Collections.Generic;
 
 namespace Wut
 {
@@ -18,7 +18,7 @@ namespace Wut
             return StartAndSetUrl(url);
         }
 
-        public static void Assert(Action<HttpListenerRequest> assertion)
+        public static void Assert(Action<ListenerAssertion> assertion)
         {
             if (_listener == null)
                 throw new InvalidOperationException("The Listener has not been initialized");
@@ -26,7 +26,7 @@ namespace Wut
             if (assertion == null)
                 throw new ArgumentNullException("assertion");
 
-            assertion(_listener.Request);
+            _listener.Assert(assertion);
         }
 
         public static void Stop()
