@@ -1,0 +1,1 @@
+powershell.exe -NoProfile -ExecutionPolicy unrestricted -Command "& { Import-Module '.\lib\psake\psake.psm1'; invoke-psake .\Source\BuildSupport\default.ps1 -t %1 ; if ($lastexitcode -ne 0) {write-host "ERROR: $lastexitcode" -fore RED; exit $lastexitcode} }" 
