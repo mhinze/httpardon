@@ -30,6 +30,7 @@ _ReSharper*/
 *.resharper
 [Tt]est[Rr]esult*
 [Bb]uild/
+Test/
 .svn
 ~$*
 *.orig
