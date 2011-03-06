@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using HttPardon.Details;
 
 namespace HttPardon
@@ -30,6 +31,11 @@ namespace HttPardon
             var response = (HttpWebResponse) request.GetResponse();
 
             return _responseBuilder.Build(response);
+        }
+
+        internal Response Post(HttpOptions httpOptions)
+        {
+            throw new NotImplementedException();
         }
     }
 }

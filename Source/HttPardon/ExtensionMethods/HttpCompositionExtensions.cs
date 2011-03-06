@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using HttPardon.FluentInterface;
 
 namespace HttPardon
@@ -20,6 +21,12 @@ namespace HttPardon
         {
             var httpOptions = HttpOptions.Cache[extended];
             return Http.get(httpOptions);
+        }
+
+        public static Response post(this object extended, string path, dynamic options)
+        {
+            var httpOptions = HttpOptions.Cache[extended];
+            return Http.post(httpOptions);
         }
     }
 }

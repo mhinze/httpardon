@@ -1,9 +1,8 @@
 ﻿using System;
-using HttPardon.FluentInterface;
 using Machine.Specifications;
 using Wut;
 
-namespace HttPardon.Specifications
+namespace HttPardon.Specifications.IHttp_Post
 {
     public class Partay
     {
@@ -13,11 +12,10 @@ namespace HttPardon.Specifications
         {
             this.http(h => h.BaseUri(Url));
         }
-
     }
 
-    [Subject(typeof(IHttp))]
-    public class when_setting_http_options_in_a_constructor_function
+    [Subject(typeof(IHttp), "get")]
+    public class when_using_the_composition_hook_to_issue_a_GET_request
     {
         static Partay partay;
 
