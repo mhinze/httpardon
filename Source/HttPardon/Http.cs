@@ -4,6 +4,11 @@ using System.Web.Helpers;
 
 namespace HttPardon
 {
+    public class HttpRequestor
+    {
+        
+    }
+
     public class Http
     {
         public static Response get(string url)
