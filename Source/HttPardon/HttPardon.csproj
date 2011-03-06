@@ -18,7 +18,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -48,13 +48,20 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Cache.cs" />
+    <Compile Include="FluentInterface\IGrammar.cs" />
+    <Compile Include="Details\ResponseBuilder.cs" />
+    <Compile Include="Util\Cache.cs" />
     <Compile Include="Http.cs" />
+    <Compile Include="ExtensionMethods\HttpCompositionExtensions.cs" />
     <Compile Include="HttpOptions.cs" />
-    <Compile Include="HttpOptionsCache.cs" />
-    <Compile Include="HttpWebResposeExtensions.cs" />
+    <Compile Include="Util\HttpOptionsCache.cs" />
+    <Compile Include="Details\HttpWebRequestBuilder.cs" />
+    <Compile Include="ExtensionMethods\HttpWebResposeExtensions.cs" />
     <Compile Include="IHttp.cs" />
+    <Compile Include="Requestor.cs" />
+    <Compile Include="Response.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

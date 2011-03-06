@@ -1,4 +1,5 @@
 ﻿using System;
+using HttPardon.FluentInterface;
 using Machine.Specifications;
 using Wut;
 
@@ -10,7 +11,7 @@ namespace HttPardon.Specifications
 
         public Partay()
         {
-            this.http(h => h.base_uri(Url));
+            this.http(h => h.BaseUri(Url));
         }
 
     }

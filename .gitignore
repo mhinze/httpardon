@@ -26,6 +26,7 @@ obj/
 [Rr]elease*/
 Ankh.NoLoad
 _ReSharper*/
+*.ReSharper
 *.resharper
 [Tt]est[Rr]esult*
 [Bb]uild/

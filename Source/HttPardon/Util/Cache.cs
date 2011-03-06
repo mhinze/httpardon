@@ -20,10 +20,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HttPardon
+namespace HttPardon.Util
 {
     [Serializable]
-    public class Cache<TKey, TValue> : IEnumerable<TValue>
+    internal class Cache<TKey, TValue> : IEnumerable<TValue>
     {
         readonly object _locker = new object();
         readonly IDictionary<TKey, TValue> _values;

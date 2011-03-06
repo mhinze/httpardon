@@ -1,49 +1,25 @@
-﻿using System.Dynamic;
-using System.Net;
-using System.Web.Helpers;
-
-namespace HttPardon
+﻿namespace HttPardon
 {
-    public class HttpRequestor
+    /// <summary>
+    /// The starting point for issuing HTTP requests
+    /// </summary>
+    public static class Http
     {
-        
-    }
+        static readonly Requestor _requestor = new Requestor();
 
-    public class Http
-    {
+        /// <summary>
+        /// Performs an HTTP GET 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public static Response get(string url)
         {
-            var request = (HttpWebRequest) WebRequest.Create(url);
-            return getResponse(request);
-        }
-
-        static Response getResponse(HttpWebRequest request)
-        {
-            var response = (HttpWebResponse) request.GetResponse();
-
-            return new Response(response);
+            return _requestor.Get(url);
         }
 
         internal static Response get(HttpOptions httpOptions)
         {
-            HttpWebRequest request = httpOptions.CreateWebRequest();
-            return getResponse(request);
+            return _requestor.Get(httpOptions);
         }
-    }
-
-    public class Response : DynamicObject
-    {
-        public Response(HttpWebResponse response)
-        {
-            HttpWebResponse = response;
-            Raw = response.Body();
-            Body = response.ContentType.Contains("json") ? Json.Decode(Raw) : Raw;
-        }
-
-        public string Raw { get; private set; }
-
-        public HttpWebResponse HttpWebResponse { get; private set; }
-
-        public dynamic Body { get; private set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace HttPardon
+namespace HttPardon.Util
 {
     internal class HttpOptionsCache
     {

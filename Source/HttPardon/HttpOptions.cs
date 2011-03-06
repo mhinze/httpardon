@@ -1,5 +1,5 @@
-using System;
-using System.Net;
+using HttPardon.FluentInterface;
+using HttPardon.Util;
 
 namespace HttPardon
 {
@@ -7,22 +7,16 @@ namespace HttPardon
     {
         static readonly HttpOptionsCache _cache = new HttpOptionsCache();
 
-        public string base_uri { get; set; }
+        public string BaseUri { get; set; }
 
         internal static HttpOptionsCache Cache
         {
             get { return _cache; }
         }
 
-        void IHttp.base_uri(string uri)
+        void IHttp.BaseUri(string uri)
         {
-            base_uri = uri;
-        }
-
-        public HttpWebRequest CreateWebRequest()
-        {
-            var result = (HttpWebRequest) WebRequest.Create(base_uri);
-            return result;
+            BaseUri = uri;
         }
     }
 }
