@@ -18,16 +18,21 @@ namespace HttPardon.Util
             _dict = _hash.ToDictionary(kvp => kvp.Key.ToString(), kvp => GetResult(kvp.Value));
         }
 
-        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        public DynamicHash(IEnumerable<KeyValuePair<string, object>> dictionary)
         {
-            return getFromHash(binder.Name, out result);
+            _dict = dictionary.ToDictionary(kvp => kvp.Key, kvp => GetResult(kvp.Value));
         }
 
-        bool getFromHash(string name, out object result)
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            if (_hash.TryGetValue(MutableString.Create(name), out result))
+            return GetFromDictionary(binder.Name, out result);
+        }
+
+        bool GetFromDictionary(string name, out object result)
+        {
+            if (_dict.TryGetValue(name, out result))
             {
-                result = (dynamic) GetResult(result);
+                result = (dynamic) result;
 
                 return true;
             }
@@ -43,12 +48,15 @@ namespace HttPardon.Util
                 {
                     result = new DynamicHash(value_hash);
                 }
-                else
+                else if (value_hash.Count == 1)
                 {
                     var pair = value_hash.First();
-                    IDictionary<string, object> r = new ExpandoObject();
-                    r.Add(pair.Key.ToString(), pair.Value);
-                    result = (dynamic) r;
+                    var dictionary = new Dictionary<string, object> {{pair.Key.ToString(), pair.Value}};
+                    result = new DynamicHash(dictionary);
+                }
+                else if (value_hash.Count < 1)
+                {
+                    result = new Dictionary<string, object>();
                 }
             }
 
@@ -68,7 +76,7 @@ namespace HttPardon.Util
         public override bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result)
         {
             var index = indexes[0];
-            return getFromHash(index.ToString(), out result);
+            return GetFromDictionary(index.ToString(), out result);
         }
 
         #region Implementation of IEnumerable

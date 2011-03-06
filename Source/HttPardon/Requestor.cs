@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Net;
-using System.Web.Helpers;
 using System.Web.Script.Serialization;
 using HttPardon.Details;
 
@@ -17,6 +14,7 @@ namespace HttPardon
     {
         readonly HttpWebRequestBuilder _requestBuilder = new HttpWebRequestBuilder();
         readonly ResponseBuilder _responseBuilder = new ResponseBuilder();
+        readonly JsonSerializer _jsonSerializer = new JsonSerializer();
 
         public Response Get(string url)
         {
@@ -52,22 +50,9 @@ namespace HttPardon
 
             using (TextWriter writer = new StreamWriter(request.GetRequestStream()))
             {
-                var json = new JavaScriptSerializer().Serialize(options.AdditionalOptions.query);
+                var json = _jsonSerializer.ToJson(options.AdditionalOptions.query);
                 writer.Write(json);
             }
-        }
-    }
-
-    public class JsonSerializer
-    {
-        public string ToJson(object data)
-        {
-            return Json.Encode(data);
-        }
-
-        public dynamic FromJson(string json)
-        {
-            return Json.Decode(json);
         }
     }
 }

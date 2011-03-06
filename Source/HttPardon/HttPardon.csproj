@@ -61,6 +61,7 @@
     </Compile>
     <Compile Include="FluentInterface\IGrammar.cs" />
     <Compile Include="Details\ResponseBuilder.cs" />
+    <Compile Include="JsonSerializer.cs" />
     <Compile Include="Util\Cache.cs" />
     <Compile Include="Http.cs" />
     <Compile Include="ExtensionMethods\HttpCompositionExtensions.cs" />

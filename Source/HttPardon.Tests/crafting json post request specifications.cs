@@ -7,21 +7,14 @@ namespace HttPardon.Specifications
     {
         const string hash = @"{:query => {:status => 'It\'s an HTTParty and everyone is invited!'}}";
 
-        Establish that = () =>
-        {
-            parsed = new RubyHasher().Parse(hash);
-        };
-
-        Because of = () =>
-        {
-            json = new JsonSerializer().ToJson(parsed.query);
-        };
-
-        It should_parse = () => ((string) parsed.query.status).ShouldEqual("It\'s an HTTParty and everyone is invited!");
-
-        It should_be_correct_json = () => json.ShouldEqual("foo");
-
         static dynamic parsed;
         static string json;
+        Because of = () => { json = new JsonSerializer().ToJson(parsed.query); };
+
+        It should_be_correct_json =
+            () => json.ShouldEqual(@"{""status"":""It\u0027s an HTTParty and everyone is invited!""}");
+
+        It should_parse = () => ((string) parsed.query.status).ShouldEqual("It\'s an HTTParty and everyone is invited!");
+        Establish that = () => { parsed = new RubyHasher().Parse(hash); };
     }
 }
