@@ -2,8 +2,14 @@
 {
     internal class RespondingScenario : IRespondingScenario
     {
-        public string Body { get; set; }
-        public string ContentType { get; set; }
+        public string Body { get; private set; }
+        public string ContentType { get; private set; }
+
+        void IRespondingScenario.Default()
+        {
+            Body = "response body";
+            ContentType = "text/plain";
+        }
 
         void IRespondingScenario.Body(string body)
         {

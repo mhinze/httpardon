@@ -22,7 +22,7 @@ namespace HttPardon.Specifications.HttpGet
         It should_include_the_raw_body_in_the_response = () =>
             response.Raw.ShouldEqual("foo");
 
-        It should_include_the_raw_boyd_in_the_response = () =>
+        It should_include_the_body_in_the_response = () =>
             ((string)response.Body).ShouldEqual("foo");
     }
 
@@ -43,14 +43,6 @@ namespace HttPardon.Specifications.HttpGet
 
         It should_be_able_to_access_json_data_dynamically =
             () => ((string) response.Body[0].user.screen_name).ShouldEqual("rice_home");
-
-        It should_iterate = () =>
-        {
-            foreach (var x in response.Body)
-            {
-                Console.WriteLine(x.user.screen_name);
-            }
-        }
 
         public const string twitter_json =
         #region lots and lots of random json from twitter
@@ -1123,10 +1115,5 @@ namespace HttPardon.Specifications.HttpGet
    }
 ]";
         #endregion
-    }
-
-    public static class twitter
-    {
-        
     }
 }

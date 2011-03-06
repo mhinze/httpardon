@@ -18,20 +18,27 @@ namespace Wut
             daemon.BeginGetContext(Callback, listenerState);
         }
 
-        static void Callback(IAsyncResult ar)
+        void Callback(IAsyncResult ar)
         {
             var state = ((ListenerState) ar.AsyncState);
             var context = state.Daemon.EndGetContext(ar);
+            
             var response = context.Response;
 
             response.ContentType = state.Scenario.Response.ContentType;
             response.WriteOutput(state.Scenario.Response.Body);
 
             response.OutputStream.Close();
+
+            Request = context.Request;
         }
+
+        public HttpListenerRequest Request { get; set; }
+
 
         public void Stop()
         {
+            daemon.Abort();
             daemon.Close();
         }
 

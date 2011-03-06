@@ -13,7 +13,7 @@ namespace Wut
 
         public string Prefix { get; set; }
 
-        public RespondingScenario Response { get; set; }
+        public RespondingScenario Response { get; private set; }
 
         void IListeningScenario.Respond(Action<IRespondingScenario> response)
         {

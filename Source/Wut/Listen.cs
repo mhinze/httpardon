@@ -1,3 +1,6 @@
+using System;
+using System.Net;
+
 namespace Wut
 {
     public static class Listen
@@ -7,18 +10,39 @@ namespace Wut
 
         public static IListeningScenario OnLocalhost()
         {
-            _listener = new Listener();
+            return StartAndSetUrl("http://localhost:80/");
+        }
 
-            var listeningScenario = new ListeningScenario(_listener)
-            {
-                Prefix = Url = "http://localhost:80/"
-            };
-            return listeningScenario;
+        public static IListeningScenario On(string url)
+        {
+            return StartAndSetUrl(url);
+        }
+
+        public static void Assert(Action<HttpListenerRequest> assertion)
+        {
+            if (_listener == null)
+                throw new InvalidOperationException("The Listener has not been initialized");
+
+            if (assertion == null)
+                throw new ArgumentNullException("assertion");
+
+            assertion(_listener.Request);
         }
 
         public static void Stop()
         {
             _listener.Stop();
+        }
+
+        static IListeningScenario StartAndSetUrl(string url)
+        {
+            _listener = new Listener();
+
+            var listeningScenario = new ListeningScenario(_listener)
+            {
+                Prefix = Url = url
+            };
+            return listeningScenario;
         }
     }
 }

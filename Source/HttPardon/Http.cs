@@ -9,9 +9,20 @@ namespace HttPardon
         public static Response get(string url)
         {
             var request = (HttpWebRequest) WebRequest.Create(url);
+            return getResponse(request);
+        }
+
+        static Response getResponse(HttpWebRequest request)
+        {
             var response = (HttpWebResponse) request.GetResponse();
 
             return new Response(response);
+        }
+
+        internal static Response get(HttpOptions httpOptions)
+        {
+            HttpWebRequest request = httpOptions.CreateWebRequest();
+            return getResponse(request);
         }
     }
 

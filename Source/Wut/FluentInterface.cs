@@ -25,6 +25,7 @@ namespace Wut
 
     public interface IRespondingScenario : IGrammar
     {
+        void Default();
         void Body(string body);
         void ContentType(string contentType);
         void Json(string json);
