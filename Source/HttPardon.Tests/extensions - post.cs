@@ -18,9 +18,9 @@ namespace HttPardon.Specifications.IHttp_Post
     [Subject(typeof (IHttp), "post")]
     public class when_using_the_composition_hook_to_issue_a_post
     {
-        Establish listener = () => Listen.OnLocalhost().Respond(x => x.Default());
+        Establish context = () => Listen.OnLocalhost().Respond(x => x.Default());
 
-        Cleanup listener_ = Listen.Stop;
+        Cleanup after = Listen.Stop;
 
         Because of = () => new Twitter()
             .post("/statuses/update.json",
@@ -32,5 +32,7 @@ namespace HttPardon.Specifications.IHttp_Post
 
         It should_post_to_complete_url =
             () => Listen.Assert(x => x.Url.ShouldEqual("http://localhost/statuses/update.json"));
+
+        It should_post_to_complete_url = () => Listen.Assert(x => x.Url.ShouldEqual("http://localhost/statuses/update.json"));
     }
 }

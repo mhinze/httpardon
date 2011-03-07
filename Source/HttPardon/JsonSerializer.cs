@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web.Helpers;
 using System.Web.Script.Serialization;
+using HttPardon.Hashie;
 using HttPardon.Util;
 
 namespace HttPardon

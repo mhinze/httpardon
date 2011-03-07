@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HttPardon.FluentInterface;
+using HttPardon.Hashie;
 using HttPardon.Util;
 
 namespace HttPardon
@@ -24,13 +25,13 @@ namespace HttPardon
             return Http.get(httpOptions);
         }
 
-        public static Response post(this object extended, string path, string options)
+        public static Response post(this object extended, string path, string options_hash)
         {
             var httpOptions = HttpOptions.Cache[extended];
 
             httpOptions.BaseUri = httpOptions.BaseUri + path;
 
-            httpOptions.AdditionalOptions = new RubyHasher().Parse(options);
+            httpOptions.AdditionalOptions = new RubyHasher().Parse(options_hash);
 
             return Http.post(httpOptions);
         }

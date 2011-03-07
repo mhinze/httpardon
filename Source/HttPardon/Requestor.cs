@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Web.Script.Serialization;
 using HttPardon.Details;
 
 namespace HttPardon
@@ -12,9 +11,9 @@ namespace HttPardon
     /// </summary>
     public class Requestor
     {
+        readonly JsonSerializer _jsonSerializer = new JsonSerializer();
         readonly HttpWebRequestBuilder _requestBuilder = new HttpWebRequestBuilder();
         readonly ResponseBuilder _responseBuilder = new ResponseBuilder();
-        readonly JsonSerializer _jsonSerializer = new JsonSerializer();
 
         public Response Get(string url)
         {

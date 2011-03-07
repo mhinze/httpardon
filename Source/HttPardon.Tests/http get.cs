@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using Machine.Specifications;
 using Wut;
@@ -12,8 +11,6 @@ namespace HttPardon.Specifications.HttpGet
 
         Establish context = () => Listen.OnLocalhost().Respond(x => x.Body("foo"));
 
-        Cleanup listener = Listen.Stop;
-
         Because of = () => { response = Http.get(Listen.Url); };
 
         It should_include_the_httpwebresponse_object_in_the_response = () =>
@@ -23,7 +20,9 @@ namespace HttPardon.Specifications.HttpGet
             response.Raw.ShouldEqual("foo");
 
         It should_include_the_body_in_the_response = () =>
-            ((string)response.Body).ShouldEqual("foo");
+            ((string) response.Body).ShouldEqual("foo");
+
+        Cleanup listener = Listen.Stop;
     }
 
     [Subject(typeof (Http), "get")]
@@ -31,10 +30,10 @@ namespace HttPardon.Specifications.HttpGet
     {
         static Response response;
 
-        Establish the_server_is_sending_json_with_a_json_content_type 
+        Establish context
             = () => Listen.OnLocalhost().Respond(x => x.Json(twitter_json));
 
-        Cleanup listener = Listen.Stop;
+        Cleanup after = Listen.Stop;
 
         Because of = () => { response = Http.get(Listen.Url); };
 
@@ -44,10 +43,10 @@ namespace HttPardon.Specifications.HttpGet
         It should_be_able_to_access_json_data_dynamically =
             () => ((string) response.Body[0].user.screen_name).ShouldEqual("rice_home");
 
-        public const string twitter_json =
-        #region lots and lots of random json from twitter
+        const string twitter_json =
+            #region lots and lots of random json from twitter
 
- @"[
+            @"[
    
    {
       ""in_reply_to_status_id_str"":null,
@@ -1114,6 +1113,7 @@ namespace HttPardon.Specifications.HttpGet
       ""in_reply_to_user_id"":null
    }
 ]";
+
         #endregion
     }
 }

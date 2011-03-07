@@ -1,5 +1,4 @@
-﻿using System;
-using Machine.Specifications;
+﻿using Machine.Specifications;
 using Wut;
 
 namespace HttPardon.Specifications.IHttp_Post
@@ -14,23 +13,20 @@ namespace HttPardon.Specifications.IHttp_Post
         }
     }
 
-    [Subject(typeof(IHttp), "get")]
-    public class when_using_the_composition_hook_to_issue_a_GET_request
+    [Subject(typeof (IHttp), "get")]
+    public class when_using_the_extensions_to_issue_a_GET_request
     {
         static Partay partay;
 
-        Establish that = () =>
+        Establish context = () =>
         {
             Listen.On(Partay.Url).Respond(x => x.Default());
             partay = new Partay();
         };
 
-        Because issuing_a_get = () =>
-        {
-            var response = partay.get();
-        };
+        Cleanup after = Listen.Stop;
 
-        Cleanup listener = Listen.Stop;
+        Because of = () => { var response = partay.get(); };
 
         It should_issue_the_request_at_the_configured_base_uri =
             () => Listen.Assert(x => x.Url.ShouldEqual(Partay.Url));
