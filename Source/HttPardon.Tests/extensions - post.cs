@@ -18,13 +18,13 @@ namespace HttPardon.Specifications.IHttp_Post
     [Subject(typeof (IHttp), "post")]
     public class when_using_the_composition_hook_to_issue_a_post
     {
-        Establish context = () => Listen.OnLocalhost().Respond(x => x.Default());
+        Establish context = () => Listen.OnLocalhost().Authenticate(x => x.Basic()).Respond(x => x.Default());
 
         Cleanup after = Listen.Stop;
 
         Because of = () => new Twitter()
             .post("/statuses/update.json",
-                  @"{:query => {:status => 'It\'s an HTTParty and everyone is invited!'}}");
+                  @":query => {:status => 'It\'s an HTTParty and everyone is invited!'}");
 
         It should_post_query = () =>
             Listen.Assert(
@@ -33,6 +33,11 @@ namespace HttPardon.Specifications.IHttp_Post
         It should_post_to_complete_url =
             () => Listen.Assert(x => x.Url.ShouldEqual("http://localhost/statuses/update.json"));
 
-        It should_post_to_complete_url = () => Listen.Assert(x => x.Url.ShouldEqual("http://localhost/statuses/update.json"));
+        It should_authenticate =
+            () => Listen.Assert(x =>
+            {
+                x.Username.ShouldEqual("username");
+                x.Password.ShouldEqual("password");
+            });
     }
 }

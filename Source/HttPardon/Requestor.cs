@@ -1,7 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Net;
+﻿using System.Net;
 using HttPardon.Details;
+using HttPardon.Hashie;
 
 namespace HttPardon
 {
@@ -11,47 +10,54 @@ namespace HttPardon
     /// </summary>
     public class Requestor
     {
-        readonly JsonSerializer _jsonSerializer = new JsonSerializer();
+        readonly RubyHasher _hasher = new RubyHasher();
+
         readonly HttpWebRequestBuilder _requestBuilder = new HttpWebRequestBuilder();
         readonly ResponseBuilder _responseBuilder = new ResponseBuilder();
 
-        public Response Get(string url)
-        {
-            var httpOptions = new HttpOptions {BaseUri = url};
-            return GetResponse(httpOptions);
-        }
-
         internal Response Get(HttpOptions options)
         {
-            return GetResponse(options);
+            options.Method = "get";
+            return makeRequest(options);
         }
 
-        Response GetResponse(HttpOptions httpOptions, Action<HttpWebRequest> action = null)
+        public Response Get(string url, string optionsHash)
+        {
+            return makeRequest(new HttpOptions
+            {
+                Method = "get",
+                BaseUri = url,
+                AdditionalOptions = _hasher.Parse(optionsHash)
+            });
+        }
+
+
+
+        internal Response Post(HttpOptions httpOptions)
+        {
+            httpOptions.Method = "post";
+            return makeRequest(httpOptions);
+        }
+
+        public Response Post(string url, string optionsHash)
+        {
+            return makeRequest(new HttpOptions
+            {
+                Method = "post",
+                AdditionalOptions = _hasher.Parse(optionsHash),
+                BaseUri = url
+            });
+        }
+
+
+
+        Response makeRequest(HttpOptions httpOptions)
         {
             var request = _requestBuilder.Build(httpOptions);
-
-            if (action != null)
-                action(request);
 
             var response = (HttpWebResponse) request.GetResponse();
 
             return _responseBuilder.Build(response);
-        }
-
-        internal Response Post(HttpOptions httpOptions)
-        {
-            return GetResponse(httpOptions, r => Action(r, httpOptions));
-        }
-
-        void Action(HttpWebRequest request, HttpOptions options)
-        {
-            request.Method = "post";
-
-            using (TextWriter writer = new StreamWriter(request.GetRequestStream()))
-            {
-                var json = _jsonSerializer.ToJson(options.AdditionalOptions.query);
-                writer.Write(json);
-            }
         }
     }
 }

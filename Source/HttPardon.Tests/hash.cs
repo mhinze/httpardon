@@ -53,6 +53,7 @@ namespace HttPardon.Specifications.Hashie
             ((object[]) parsed.i).ShouldContainOnly(42, 43, 44, 45);
     }
 
+
     [Subject(typeof (RubyHasher))]
     public class when_obtaining_a_deep_ruby_hash : parsing_a_hash
     {
@@ -64,5 +65,23 @@ namespace HttPardon.Specifications.Hashie
 
         It should_parse_the_nested_hash = () =>
             ((int) parsed.b.f.g).ShouldEqual(6);
+    }
+
+    [Subject(typeof (DynamicHash))]
+    public class when_accessing_a_non_existant_member : parsing_a_hash
+    {
+        Establish context = () => hash = string.Empty;
+
+        It member_access_should_return_return_null = () =>
+        {
+            object foo = parsed.non_existant;
+            foo.ShouldBeNull();
+        };
+
+        It indexer_access_should_return_return_null = () =>
+        {
+            object foo = parsed["non_existant"];
+            foo.ShouldBeNull();
+        };
     }
 }

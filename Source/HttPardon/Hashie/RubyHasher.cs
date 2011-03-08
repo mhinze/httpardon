@@ -17,6 +17,9 @@ namespace HttPardon.Hashie
 
         public dynamic Parse(string hash)
         {
+            if (hash == null)
+                return new DynamicHash();
+
             hash = reformatHash_addingOutsideBracesIfNecessary(hash);
 
             dynamic rubyHash = compileHash(hash);

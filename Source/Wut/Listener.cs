@@ -11,15 +11,20 @@ namespace Wut
 
         public void StartAsync(ListeningScenario listening)
         {
-            daemon = new HttpListener();
+            NewDaemon();
+
             daemon.Prefixes.Add(listening.Prefix);
+
             daemon.Start();
 
             var listenerState = new ListenerState(daemon, listening);
 
-            var asyncResult = daemon.BeginGetContext(Callback, listenerState);
+            daemon.BeginGetContext(Callback, listenerState);
+        }
 
-            listening.Execution(asyncResult);
+        void NewDaemon()
+        {
+            daemon = daemon ?? new HttpListener();
         }
 
         void Callback(IAsyncResult ar)
@@ -27,20 +32,33 @@ namespace Wut
             var state = ((ListenerState) ar.AsyncState);
             var context = state.Daemon.EndGetContext(ar);
 
-            StoreRequestInfoForAssertion(context.Request, _assertion);
+            StoreRequestInfoForAssertion(context, _assertion);
 
             var response = context.Response;
-
+            
             response.ContentType = state.Scenario.Response.ContentType;
             response.WriteOutput(state.Scenario.Response.Body);
 
             response.OutputStream.Close();
         }
 
-        static void StoreRequestInfoForAssertion(HttpListenerRequest request, ListenerAssertion assertData)
+        static void StoreRequestInfoForAssertion(HttpListenerContext context, ListenerAssertion assertData)
         {
-            assertData.Url = request.Url.AbsoluteUri;
-            assertData.RequestBody = request.Body();
+            assertData.Url = context.Request.Url.AbsoluteUri;
+            assertData.RequestBody = context.Request.Body();
+            
+            if (context.User != null)
+            {
+                var identity = context.User.Identity as HttpListenerBasicIdentity;
+                if (identity != null)
+                {
+                    assertData.Username = identity.Name;
+                    assertData.Password = identity.Password;
+                }
+            }
+
+
+            
         }
 
         public void Stop()
@@ -54,6 +72,13 @@ namespace Wut
             if (assertion == null) throw new ArgumentNullException("assertion");
             if (_assertion == null) throw new InvalidOperationException("Assertion Data is null");
             assertion(_assertion);
+        }
+
+        public void Authentication(ListeningScenario listeningScenario)
+        {
+            NewDaemon();
+
+            daemon.AuthenticationSchemes = listeningScenario.Authentication.Scheme;
         }
 
         class ListenerState

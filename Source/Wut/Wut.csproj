@@ -36,6 +36,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthenticationScenario.cs" />
     <Compile Include="ListenerAssertion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FluentInterface.cs" />

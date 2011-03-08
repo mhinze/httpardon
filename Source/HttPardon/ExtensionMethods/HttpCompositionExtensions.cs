@@ -22,6 +22,7 @@ namespace HttPardon
         public static Response get(this object extended)
         {
             var httpOptions = HttpOptions.Cache[extended];
+
             return Http.get(httpOptions);
         }
 

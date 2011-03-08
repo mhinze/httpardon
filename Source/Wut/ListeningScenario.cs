@@ -14,17 +14,23 @@ namespace Wut
         public string Prefix { get; set; }
 
         public RespondingScenario Response { get; private set; }
+        public AuthenticationScenario Authentication { get; set; }
 
-        void IListeningScenario.Respond(Action<IRespondingScenario> response)
+        public IRespondExpression Authenticate(Action<IAuthenticationScenario> auth)
+        {
+            Authentication = new AuthenticationScenario();
+            if (auth != null)
+                auth(Authentication);
+            _listener.Authentication(this);
+            return this;
+        }
+
+        public IAuthenticateExpression Respond(Action<IRespondingScenario> response)
         {
             Response = new RespondingScenario();
             if (response != null) response(Response);
             _listener.StartAsync(this);
-        }
-
-        public void Execution(IAsyncResult asyncResult)
-        {
-            
+            return this;
         }
     }
 }

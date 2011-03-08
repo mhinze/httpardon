@@ -13,6 +13,8 @@ namespace HttPardon
     {
         public string ToJson(object data)
         {
+            if (data == null) return null;
+
             var javaScriptSerializer = new JavaScriptSerializer();
             javaScriptSerializer.RegisterConverters(new[] {new DynamicHashConverter()});
             var serialize = javaScriptSerializer.Serialize(data);

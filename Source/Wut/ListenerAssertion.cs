@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 
 namespace Wut
 {
@@ -6,5 +7,9 @@ namespace Wut
     {
         public string Url { get; set; }
         public string RequestBody { get; set; }
+
+        public string Username { get; set; }
+
+        public string Password { get; set; }
     }
 }

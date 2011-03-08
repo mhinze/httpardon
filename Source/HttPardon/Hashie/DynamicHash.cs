@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -6,6 +7,7 @@ using IronRuby.Builtins;
 
 namespace HttPardon.Hashie
 {
+    // TODO 
     public partial class DynamicHash : DynamicObject, IDictionary<string, object>
     {
         readonly IDictionary<string, object> _dict = new Dictionary<string, object>();
@@ -22,6 +24,11 @@ namespace HttPardon.Hashie
             _dict = dictionary.ToDictionary(kvp => kvp.Key, kvp => GetResult(kvp.Value));
         }
 
+        public DynamicHash()
+        {
+            _dict = new Dictionary<string, object>();
+        }
+
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             return GetFromDictionary(binder.Name, out result);
@@ -35,7 +42,8 @@ namespace HttPardon.Hashie
 
                 return true;
             }
-            return false;
+            result = null;
+            return true;
         }
 
         static object GetResult(object result)

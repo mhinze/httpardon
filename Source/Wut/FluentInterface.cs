@@ -18,10 +18,29 @@ namespace Wut
         int GetHashCode();
     }
 
-    public interface IListeningScenario : IGrammar
+    public interface IListeningScenario : IAuthenticateExpression, IRespondExpression
     {
-        void Respond(Action<IRespondingScenario> response);
+        
     }
+
+    public interface IAuthenticateExpression : IGrammar
+    {
+        IRespondExpression Authenticate(Action<IAuthenticationScenario> auth);
+    }
+
+    public interface IAuthenticationScenario : IGrammar
+    {
+        void Basic();
+    }
+
+    public interface IRespondExpression : IGrammar
+    {
+        IAuthenticateExpression Respond(Action<IRespondingScenario> response);
+    }
+
+
+
+    
 
     public interface IRespondingScenario : IGrammar
     {
