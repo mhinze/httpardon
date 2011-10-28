@@ -13,5 +13,5 @@ Task RunNested2 {
 }
 
 Task CheckX{
-	Assert ($x -eq 1) '$x was not 1' 
+	Assert ($x -eq 1) '$x was not 1'
 }
