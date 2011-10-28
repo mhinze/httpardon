@@ -17,17 +17,17 @@ task default -depends Compile, Test
 task Init {
 	# clean build artifacts
     delete_directory $build_dir
-    create_directory $test_dir 
+    create_directory $test_dir
 	set-location $source_dir
 	get-childitem * -include *.dll -recurse | remove-item
     get-childitem * -include *.pdb -recurse | remove-item
 	get-childitem * -include *.exe -recurse | remove-item
 	set-location $base_dir
-	
+
 	create_directory $build_dir
-	
+
 	msbuild /t:clean /property:"Configuration=Debug" /nologo /verbosity:m $source_dir\$projectName.sln
-	
+
 	create-commonAssemblyInfo $asmInfo
 }
 
@@ -57,14 +57,14 @@ function global:zip_directory($directory,$file) {
 }
 
 function global:copy_website_files($source,$destination){
-    $exclude = @('*.user','*.dtd','*.tt','*.cs','*.csproj','*.orig', '*.log') 
+    $exclude = @('*.user','*.dtd','*.tt','*.cs','*.csproj','*.orig', '*.log')
     copy_files $source $destination $exclude
 	delete_directory ""$destination\obj""
 }
 
-function global:copy_files($source,$destination,$exclude=@()){    
+function global:copy_files($source,$destination,$exclude=@()){
     create_directory $destination
-    Get-ChildItem $source -Recurse -Exclude $exclude | Copy-Item -Destination {Join-Path $destination $_.FullName.Substring($source.length)} 
+    Get-ChildItem $source -Recurse -Exclude $exclude | Copy-Item -Destination {Join-Path $destination $_.FullName.Substring($source.length)}
 }
 
 function global:Copy_and_flatten ($source,$filter,$dest) {
@@ -83,7 +83,7 @@ function global:copy_all_assemblies_for_test($destination){
 }
 
 function global:delete_file($file) {
-    if($file) { remove-item $file -force -ErrorAction SilentlyContinue | out-null } 
+    if($file) { remove-item $file -force -ErrorAction SilentlyContinue | out-null }
 }
 
 function global:delete_directory($directory_name)
@@ -116,5 +116,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("""")]
 [assembly: ComVisible(false)]
 [assembly: AssemblyVersion(""$version"")]
-[assembly: AssemblyFileVersion(""$version"")]"  | out-file $filename -encoding "UTF8"    
+[assembly: AssemblyFileVersion(""$version"")]"  | out-file $filename -encoding "UTF8"
 }

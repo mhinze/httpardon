@@ -6,15 +6,15 @@ properties {
 
 task default -depends Test
 
-task Test -depends Compile, Clean { 
+task Test -depends Compile, Clean {
   $testMessage
 }
 
-task Compile -depends Clean { 
+task Compile -depends Clean {
   $compileMessage
 }
 
-task Clean { 
+task Clean {
   $cleanMessage
 }
 
